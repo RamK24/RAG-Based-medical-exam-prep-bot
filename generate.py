@@ -47,7 +47,7 @@ def to_retrieve(query,  pipe=None):
     # gc.collect()
     return True if result else False
 
-def generate(query, context_str, model, tokenizer, streamer, history=[]):
+def generate(query, context_str, model, tokenizer, history=[]):
     if context_str:
         prompt = create_prompt(query, context_str)
     else:
@@ -66,9 +66,10 @@ def generate(query, context_str, model, tokenizer, streamer, history=[]):
     relevant_context_ids = extract_lists(response)
     print('relevance:', relevant_context_ids)
     history.append({'role': 'system', 'content': response})
+
     # return Response(generate_tokens(), content_type="text/plain"), history, relevant_context_ids
     
-    # return history, relevant_context_ids
+    return history, relevant_context_ids
 
 
 def process_response(response, supporting_info):
@@ -87,7 +88,6 @@ def process_response(response, supporting_info):
                 f'<b>Supporting information</b>: {supporting_info}')
     else:
         if explanantion_start != -1 and explanantion_end != -1:
-            print('c'*200)
             return response[explanantion_start + offset: explanantion_end].strip()
         else:
             return response

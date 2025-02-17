@@ -3,17 +3,23 @@ import torch
 import numpy as np
 from torch import Tensor
 from datasets import load_dataset
+import torch.nn as nn       
 from transformers import AutoModel, AutoTokenizer
-import torch.nn as nn
 
 
 class Embeddings():
 
-    def __init__(self, tokenizer, model):
-        self.model = model
-        self.tokenizer = tokenizer    
+    def __init__(self):
+        self.model_id = "BMRetriever/BMRetriever-7B"   
         self.index = faiss.read_index("passages_7b.idx")
         self.doc_embeddings = torch.load('./embeddings_train.pth', weights_only=True)    
+
+    def load_model(self):
+        self.model = AutoModel.from_pretrained(self.model_id, torch_dtype=torch.float16)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
+
+    def move_to_cuda(self):
+        self.model.to("cuda:0")
 
 
     def process_embeddings(self, embeddings):
@@ -60,7 +66,6 @@ class Embeddings():
         distances, indices = self.index.search(query_embedding, 20)
         return distances, indices
     
-
 
     def get_context(self, query):
         _, indices = self.get_candidates(query)
