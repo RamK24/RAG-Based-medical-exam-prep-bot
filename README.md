@@ -1,6 +1,6 @@
 ### Overview
 
-The bot is based on thia <a href='https://huggingface.co/datasets/MedRAG/textbooks'> Dataset </a> from huggingface. 
+The bot is based on this <a href='https://huggingface.co/datasets/MedRAG/textbooks'> Dataset </a> from huggingface. 
 Textbooks is a collection of 18 widely used medical textbooks, which are important references for students taking the United States Medical Licensing Examination (USLME).
 <ul>
     <li>Anatomy - Gray</li>
